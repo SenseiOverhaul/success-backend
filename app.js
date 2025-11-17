@@ -23,7 +23,7 @@ pool.connect();
 app.post("/api/postusers", async (req, res) => {
   const { email, password } = req.body;
   try {
-    const hashedpassword = bcrypt.hash(password, 10);
+    const hashedpassword =await bcrypt.hash(password, 10);
     const result = await pool.query(
       `INSERT INTO projusers(email, password) VALUES($1,$2)`,
       [email, hashedpassword]
@@ -132,3 +132,4 @@ app.put("/api/updateitems", async (req, res) => {});
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);
 });
+
