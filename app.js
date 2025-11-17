@@ -56,7 +56,7 @@ app.post("/api/login", async (req, res) => {
 
   try {
     const users =
-      await sql`SELECT id, email, password FROM projusers WHERE email = ${email}`;
+      await pool.query(`SELECT id, email, password FROM projusers WHERE email = ${email}`);
     const user = users[0];
 
     if (!user) {
@@ -132,4 +132,5 @@ app.put("/api/updateitems", async (req, res) => {});
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);
 });
+
 
