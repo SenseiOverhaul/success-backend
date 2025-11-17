@@ -112,7 +112,7 @@ app.get("/api/getitems", async (req, res) => {
 });
 
 app.delete("/api/deleteitems/:id", async (req, res) => {
-  const id = req.params.id;
+  const id = req.params;
   try {
     const result = await pool.query(`DELETE * FROM projitems WHERE id=$1 RETURNING *`, [
       id,
@@ -120,7 +120,6 @@ app.delete("/api/deleteitems/:id", async (req, res) => {
     if (!result) {
       throw new Error("Error deleting item");
     } 
-    res.json(result.rows);
   } catch (error) {
     console.log(`${error}`);
   }
@@ -131,6 +130,7 @@ app.put("/api/updateitems", async (req, res) => {});
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);
 });
+
 
 
 
