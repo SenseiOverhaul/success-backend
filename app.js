@@ -114,14 +114,13 @@ app.get("/api/getitems", async (req, res) => {
 app.delete("/api/deleteitems/:id", async (req, res) => {
   const id = req.params.id;
   try {
-    const result = await pool.query(`DELETE * FROM projitems WHERE id=$1`, [
+    const result = await pool.query(`DELETE * FROM projitems WHERE id=$1 RETURNING *`, [
       id,
     ]);
     if (!result) {
       throw new Error("Error deleting item");
-    } else {
-      return true;
-    }
+    } 
+    res.json(result.rows);
   } catch (error) {
     console.log(`${error}`);
   }
@@ -132,5 +131,6 @@ app.put("/api/updateitems", async (req, res) => {});
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);
 });
+
 
 
