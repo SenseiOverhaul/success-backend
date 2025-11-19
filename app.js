@@ -57,14 +57,13 @@ app.post("/api/login", async (req, res) => {
   try {
     const users =
       await pool.query(`SELECT id, email, password FROM projusers WHERE email = $1`,[email]);
-    const user = users.rows;
-    const dbpass=user.password;
-
+    const user = users.rows[0];
+    
     if (!user) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    const passwordMatch = await bcrypt.compare(password, dbpass);
+    const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
       return res.status(401).json({ message: "Invalid credentials" });
@@ -131,6 +130,7 @@ app.put("/api/updateitems", async (req, res) => {});
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);
 });
+
 
 
 
