@@ -57,7 +57,7 @@ app.post("/api/login", async (req, res) => {
   try {
     const users =
       await pool.query(`SELECT id, email, password FROM projusers WHERE email = $1`,[email]);
-    const user = users.rows;
+    const user = users[0].rows;
 
     if (!user) {
       return res.status(401).json({ message: "Invalid credentials" });
@@ -77,7 +77,7 @@ app.post("/api/login", async (req, res) => {
     res.json({ token });
   } catch (error) {
     console.error("Login error:", error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Login error" });
   }
 });
 
@@ -130,6 +130,7 @@ app.put("/api/updateitems", async (req, res) => {});
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);
 });
+
 
 
 
