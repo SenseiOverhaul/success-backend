@@ -114,7 +114,7 @@ app.get("/api/getitems", async (req, res) => {
 app.delete("/api/deleteitems/:id", async (req, res) => {
   const id = req.params.id;
   try {
-    const result = await pool.query(`DELETE * FROM projitems WHERE id=$1 RETURNING *`, [
+    const result = await pool.query(`DELETE * FROM projitems WHERE id=$1`, [
       id,
     ]);
     if (!result) {
@@ -130,6 +130,7 @@ app.put("/api/updateitems", async (req, res) => {});
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);
 });
+
 
 
 
