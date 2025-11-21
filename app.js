@@ -38,6 +38,21 @@ app.post("/api/postusers", async (req, res) => {
   }
 });
 
+app.post("/api/postmsg", async (req, res) => {
+  const { msg } = req.body;
+  try {
+    const result = await pool.query(`INSERT INTO projmsg(message) VALUES($1)`, [
+      msg,
+    ]);
+    if (!result) {
+      res.sendStatus(401).json({ message: "Error querying" });
+    }
+    res.json(result);
+  } catch (error) {
+    res.sendStatus(401).json({ message: error });
+  }
+});
+
 app.get("/api/getusers", async (req, res) => {
   try {
     const result = await pool.query(`SELECT * FROM projusers`);
@@ -130,6 +145,7 @@ app.put("/api/updateitems", async (req, res) => {});
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);
 });
+
 
 
 
