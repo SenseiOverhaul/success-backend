@@ -53,6 +53,18 @@ app.post("/api/postmsg", async (req, res) => {
   }
 });
 
+app.get("/api/getmsg", async (req, res) => {
+  try {
+    const result = await pool.query(`SELECT * FROM projmsg`);
+    if (!result) {
+      res.sendStatus(401).json({ message: "Error querying" });
+    }
+    res.json(result);
+  } catch (error) {
+    res.sendStatus(500).json({ message: "Server error" });
+  }
+});
+
 app.get("/api/getusers", async (req, res) => {
   try {
     const result = await pool.query(`SELECT * FROM projusers`);
@@ -145,6 +157,7 @@ app.put("/api/updateitems", async (req, res) => {});
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);
 });
+
 
 
 
